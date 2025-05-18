@@ -2,7 +2,6 @@
 #include <cmath>
 #include <limits>
 using namespace std;
-
 // Прототипы функций
 double getValue();
 void checkStep(const double step);
