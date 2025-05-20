@@ -9,14 +9,14 @@ using namespace std;
  * @param radius - радиус шара
  * @return - возвращает объем шара
  */
-double calculateVolume(const double radius);
+double Volume(const double radius);
 
 /**
  * @brief - Функция для вычисления площади поверхности шара
  * @param radius - радиус шара
  * @return - возвращает площадь поверхности шара
  */
-double calculateSurfaceArea(const double radius);
+double Area(const double radius);
 
 /**
  * @brief - Проверяет, является ли ввод корректным числом
@@ -33,16 +33,16 @@ int main() {
         cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Удаляем некорректный ввод из потока
     }
     cout << "Результаты вычислений:" << endl;
-    cout << "Объем шара: " << calculateVolume(radius) << endl;
-    cout << "Площадь поверхности шара: " << calculateSurfaceArea(radius) << endl;
+    cout << "Объем шара: " << Volume(radius) << endl;
+    cout << "Площадь поверхности шара: " << Area(radius) << endl;
 
     return 0;
 }
 
-double calculateVolume(const double radius) {
+double Volume(const double radius) {
     return (4.0 / 3.0) * M_PI * pow(radius, 3);
 }
 
-double calculateSurfaceArea(const double radius) {
+double Area(const double radius) {
     return 4 * M_PI * pow(radius, 2);
 }
