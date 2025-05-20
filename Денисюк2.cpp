@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cmath>
 #include <limits> 
-
+#include <cstdlib>
 using namespace std;
 
 /**
@@ -22,16 +22,16 @@ double calculateSurfaceArea(const double radius);
  * @brief - Проверяет, является ли ввод корректным числом
  * @return - возвращает введенное число, если оно корректно
  */
-double getValidatedInput();
 
-/**
- * @brief - Точка входа в программу
- * @return - возвращает 0, если программа выполнена корректно
- */
 int main() {
     cout << "Введите радиус шара R: ";
-    double radius = getValidatedInput();
-
+    double radius;
+    // Проверка ввода на корректность (только положительные числа)
+    while (!(cin >> radius) || radius <= 0) { // Пока ввод некорректен (не число или <= 0)
+        cout << "Ошибка! Введите положительное число: "; // Выводим сообщение об ошибке
+        cin.clear(); // Очищаем флаг ошибки у cin
+        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Удаляем некорректный ввод из потока
+    }
     cout << "Результаты вычислений:" << endl;
     cout << "Объем шара: " << calculateVolume(radius) << endl;
     cout << "Площадь поверхности шара: " << calculateSurfaceArea(radius) << endl;
@@ -40,23 +40,9 @@ int main() {
 }
 
 double calculateVolume(const double radius) {
-    return (4.0 / 3.0) * 3.14 * pow(radius, 3);
+    return (4.0 / 3.0) * M_PI * pow(radius, 3);
 }
 
 double calculateSurfaceArea(const double radius) {
-    return 4 * 3.14 * pow(radius, 2);
-}
-
-double getValidatedInput() {
-    double input;
-    while (true) {
-        cin >> input;
-        if (cin.fail()) { // Если ввод не является числом
-            cin.clear(); // Сброс флага ошибки
-            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Очистка буфера ввода
-            cout << "Ошибка! Введите число: ";
-        } else {
-            return input;
-        }
-    }
+    return 4 * M_PI * pow(radius, 2);
 }
