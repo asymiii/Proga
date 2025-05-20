@@ -24,7 +24,6 @@ double getB(const double x, const double y);
 int main() {
     const double x = 0.335; 
     const double y = 0.025; 
-    cout << "Результаты вычислений:" << endl;
     cout << "a = " << getA(x,y) << endl; 
     cout << "b = " << getB(x,y); 
     return 0;
