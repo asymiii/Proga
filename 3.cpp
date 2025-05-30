@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include <cmath>
 #include <limits>
@@ -53,15 +54,20 @@ double functionY(double x) {
     cout << "x | y(x)" << endl;
         for (double x = x0; x < xend + step; x += step){
         cout << x <<"|";
-        double y = functionY (x);
   if (x >= 0)
 { double y = functionY (x);}
 else
 {cout<<"не найдено";}
 }
 }
-double get(){
-double value = 0;
-cin >> value;
-return value;
+double get() {
+    double value;
+    while (true) {
+        cin >> value;
+        if (cin.fail()) {
+            cout << "oшибка: введите корректное число." << endl;
+            return 1;
 }
+    }
+    }
+
