@@ -3,7 +3,11 @@
 
 using namespace std;
 
-// Функция для вычисления факториала
+/**
+ * @brief Вычисляет факториал числа k
+ * @param k - целое неотрицательное число
+ * @return факториал числа k (k!)
+ */
 double factorial(int k) {
     double result = 1;
     for (int i = 1; i <= k; i++) {
@@ -12,7 +16,12 @@ double factorial(int k) {
     return result;
 }
 
-// Функция a) - сумма первых n членов
+/**
+ * @brief Вычисляет сумму первых n членов ряда 
+ *        sum_{k=0}^n (-1)^k / k!
+ * @param n - количество членов ряда (целое неотрицательное)
+ * @return сумма первых n членов ряда
+ */
 double sum_n_terms(int n) {
     double sum = 0;
     for (int k = 0; k <= n; k++) {
@@ -21,7 +30,12 @@ double sum_n_terms(int n) {
     return sum;
 }
 
-// Функция b) - сумма членов с |член| >= e
+/**
+ * @brief Вычисляет сумму членов ряда, по модулю не меньших e
+ *        Суммируются члены ряда (-1)^k / k! пока |член| >= e
+ * @param e - пороговое значение по модулю (положительное число)
+ * @return сумма членов ряда, удовлетворяющих условию |член| >= e
+ */
 double sum_above_e(double e) {
     double sum = 0;
     int k = 0;
@@ -36,7 +50,10 @@ double sum_above_e(double e) {
     
     return sum;
 }
-
+/**
+ * @brief Точка входа в программу
+ * @return возвращает 0 при успешном завершении
+ */
 int main() {
     int n;
     double e;
