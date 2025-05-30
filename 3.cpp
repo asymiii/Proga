@@ -54,19 +54,14 @@ double functionY(double x) {
         for (double x = x0; x < xend + step; x += step){
         cout << x <<"|";
         double y = functionY (x);
-        if (isnan(y))
-            cout<<"не найдено";
-            else
-            cout<<y;
-            cout<<endl;
+  if (x >= 0)
+{ double y = functionY (x);}
+else
+{cout<<"не найдено";}
 }
 }
 double get(){
 double value = 0;
 cin >> value;
-if (cin. fail()){
-cout<<"некоректный"<<endl;
-abort();
-}
 return value;
 }
