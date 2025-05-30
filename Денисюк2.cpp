@@ -22,16 +22,12 @@ double Area(const double radius);
  * @brief - Проверяет, является ли ввод корректным числом
  * @return - возвращает введенное число, если оно корректно
  */
+double getValue();
 
 int main() {
     cout << "Введите радиус шара R: ";
-    double radius;
-    // Проверка ввода на корректность (только положительные числа)
-    while (!(cin >> radius) || radius <= 0) { // Пока ввод некорректен (не число или <= 0)
-        cout << "Ошибка! Введите положительное число: "; // Выводим сообщение об ошибке
-        cin.clear(); // Очищаем флаг ошибки у cin
-        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Удаляем некорректный ввод из потока
-    }
+    double radius = getValue();
+
     cout << "Результаты вычислений:" << endl;
     cout << "Объем шара: " << Volume(radius) << endl;
     cout << "Площадь поверхности шара: " << Area(radius) << endl;
@@ -45,4 +41,14 @@ double Volume(const double radius) {
 
 double Area(const double radius) {
     return 4 * M_PI * pow(radius, 2);
+}
+
+double getValue() {
+    double radius;
+    cin >> radius;
+    if ((cin.fail());(radius<=0) ) {
+        cout << "Только числа и только положительные" << endl;
+        abort();
+    }
+    return radius;
 }
