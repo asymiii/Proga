@@ -9,14 +9,14 @@ using namespace std;
 * @retum значение функции в точке х
 */
 // Прототипы функций
-double functionY (double const x);
+double functionY (const double x);
 /**
 * Табулирует функцию на интервале [x0, xend] с шагом step
 * @param x0 - начальное значение х
 * @param xend - конечное значение х
 * @param step - шаг табуляции
 */
-void tabulateFunction(double const x0, double const xend, double const step);
+void tabulateFunction(const double x0, const double xend, const double step);
 /**
 * (@brief считывает значение с клавиатуры
 * @return введенное значение
@@ -45,9 +45,7 @@ int main() {
         return 0;
 }
 double functionY(double x) {
-    if (x >= 0)
         return x+sqrt(x)+cbrt(x)-2.5;
-    return NAN;
 }
     void tabulateFunction(double x0, double xend, double step)
 {
@@ -55,19 +53,16 @@ double functionY(double x) {
         for (double x = x0; x < xend + step; x += step){
         cout << x <<"|";
   if (x >= 0)
-{ double y = functionY (x);}
-else
-{cout<<"не найдено";}
+{ double x= functionY (x);}
 }
 }
 double get() {
-    double value;
-    while (true) {
-        cin >> value;
+    double x;
+        cin >> x;
         if (cin.fail()) {
             cout << "oшибка: введите корректное число." << endl;
-            return 1;
+            abort();
 }
-    }
-    }
+return x;
+}
 
