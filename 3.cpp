@@ -49,18 +49,25 @@ int main() {
         for (double x = x0; x < xend + step; x += step){
         cout << x <<"|";
   if (x >= 0)
-{ double x= functionY (x);}
+{ 
+    double x= functionY (x);}
 }
+return 0;
 }
-double functionY(double x) {
+
+double functionY(double x) 
+{
         return x+sqrt(x)+cbrt(x)-2.5;
 }
-double get() {
-    double x;
+
+double get() 
+{
+    double x =0;
         cin >> x;
-        if (cin.fail()) {
+        if (cin.fail()) 
+        {
             cout << "oшибка: введите корректное число." << endl;
             abort();
-}
+        }
 return x;
 }
