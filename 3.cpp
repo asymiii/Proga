@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include <cmath>
 #include <limits>
@@ -44,17 +43,17 @@ int main() {
             tabulateFunction(x0, xend, step);
         return 0;
 }
-double functionY(double x) {
-        return x+sqrt(x)+cbrt(x)-2.5;
-}
     void tabulateFunction(double x0, double xend, double step)
 {
-    cout << "x | y(x)" << endl;
+    cout << "x | x'" << endl;
         for (double x = x0; x < xend + step; x += step){
         cout << x <<"|";
   if (x >= 0)
 { double x= functionY (x);}
 }
+}
+double functionY(double x) {
+        return x+sqrt(x)+cbrt(x)-2.5;
 }
 double get() {
     double x;
@@ -65,4 +64,3 @@ double get() {
 }
 return x;
 }
-
