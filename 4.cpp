@@ -65,7 +65,7 @@ double sumGreaterE(double e) {
         sum += term;
         k++;
         // Рекуррентное соотношение
-        term = -term / k;
+        term = -term / (k+1);
         
     }
     
@@ -73,11 +73,11 @@ double sumGreaterE(double e) {
 }
 
 int getIntInput(const string& prompt) {
-    int value;
+    int value=0;
         cout << prompt;
         cin >> value;
         
-        if (cin.fail() || value <= 0) {
+        if (cin.fail() || value < 0) {
         cout << "Oшибка: введите корректное число." << endl;
             abort();
         } 
@@ -85,11 +85,11 @@ int getIntInput(const string& prompt) {
         }
 
 double getDoubleInput(const string& prompt) {
-     double value;
+     double value=0.0;
         cout << prompt;
         cin >> value;
         
-        if (cin.fail() || value <= 0) {
+        if (cin.fail() || value < 0) {
         cout << "Oшибка: введите корректное число." << endl;
             abort();
         } 
