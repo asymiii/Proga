@@ -6,6 +6,10 @@
 
 using namespace std;
 
+enum class FM {
+    RANDOM=1,
+    MANUAL=2
+};
 /**
  * @brief - Заполняет массив случайными числами в заданном диапазоне
  * @param arr - массив для заполнения
@@ -13,7 +17,7 @@ using namespace std;
  * @param min - минимальное значение
  * @param max - максимальное значение
  */
-void fillRandom(int* arr, size_t n, int min, int max);
+void fillRandom(int* arr, const size_t n, const int min, const int max);
 
 /**
  * @brief - Вычисляет сумму элементов с нечетными индексами
@@ -21,7 +25,7 @@ void fillRandom(int* arr, size_t n, int min, int max);
  * @param n - размер массива
  * @return - возвращает сумму элементов
  */
-int sumOddIndexes(const int* arr, size_t n);
+int sumOddIndexes(const int* arr, const size_t n);
 
 /**
  * @brief - Подсчитывает элементы больше A и кратные 5
@@ -30,21 +34,21 @@ int sumOddIndexes(const int* arr, size_t n);
  * @param A - заданное число для сравнения
  * @return - возвращает количество элементов
  */
-int countElements(const int* arr, size_t n, int A);
+int countElements(const int* arr, const size_t n, const int A);
 
 /**
  * @brief - Делит элементы с четными номерами на первый элемент
  * @param arr - массив чисел
  * @param n - размер массива
  */
-void divideEvenNumbered(int* arr, size_t n);
+void divideEvenNumbered(int* arr, const size_t n);
 
 /**
  * @brief - Выводит массив на экран
  * @param arr - массив чисел
  * @param n - размер массива
  */
-void printArray(const int* arr, size_t n);
+void printArray(const int* arr, const size_t n);
 
 /**
  * @brief - Безопасный ввод числа с проверкой
@@ -58,21 +62,15 @@ int main() {
     
     // Ввод диапазона
     int min_val = safeInput("Введите минимальное значение диапазона: ");
-        if (min_val<(-10)){
-        cout<<("Ошибка");
-        abort();
-    }
+
     int max_val = safeInput("Введите максимальное значение диапазона: ");
-        if (max_val>(20)){
-        cout<<("Ошибка");
-        abort();
-    }
     
     if(min_val > max_val) {
         cout << "Минимальное значение больше максимального.";
+        swap(min_val, max_val);
     }
     
-    size_t n = safeInput("Введите размер массива: ")
+    size_t n = safeInput("Введите размер массива: ");
     int* arr = new int[n];
     int* work_arr = new int[n];
     
@@ -80,10 +78,12 @@ int main() {
     cout << "Заполнить массив:1. Случайными числами 2. Вручную Выберите вариант: ";
     int choice = safeInput("");
     
-    if(choice == 1) {
-        fillRandom(arr, n, min_val, max_val);
-    } else {
-        cout << "Введите " << n << " элементов массива:";
+ switch(static_cast<FM>(choice)) {
+        case FM::RANDOM:
+            fillRandom(arr, n, min_val, max_val);
+            break;
+        case FM::MANUAL:
+            cout << "Введите " << n << " элементов массива:";
         for(size_t i = 0; i < n; i++) {
             arr[i] = safeInput("Элемент " + to_string(i) + ": ");
         }
@@ -108,16 +108,16 @@ int main() {
         cout << "3. Ошибка: первый элемент равен 0, деление невозможно";
         abort();
     }
-    
+    return 0;
 }
 
-void fillRandom(int* arr, size_t n, int min, int max) {
+void fillRandom(int* arr, const size_t n, const int min, const int max) {
     for(size_t i = 0; i < n; i++) {
         arr[i] = rand() % (max - min + 1) + min;
     }
 }
 
-int sumOddIndexes(const int* arr, size_t n) {
+int sumOddIndexes(const int* arr, const size_t n){
     int sum = 0;
     for(size_t i = 1; i < n; i += 2) {
         sum += arr[i];
@@ -125,7 +125,7 @@ int sumOddIndexes(const int* arr, size_t n) {
     return sum;
 }
 
-int countElements(const int* arr, size_t n, int A) {
+int countElements(const int* arr, const size_t n, const int A) {
     int count = 0;
     for(size_t i = 0; i < n; i++) {
         if(arr[i] > A && arr[i] % 5 == 0) {
@@ -135,14 +135,14 @@ int countElements(const int* arr, size_t n, int A) {
     return count;
 }
 
-void divideEvenNumbered(int* arr, size_t n) {
+void divideEvenNumbered(int* arr, const size_t n) {
     int first = arr[0];
     for(size_t i = 1; i < n; i += 2) {
         arr[i] /= first;
     }
 }
 
-void printArray(const int* arr, size_t n) {
+void printArray(const int* arr, const size_t n) {
     for(size_t i = 0; i < n; i++) {
         cout << arr[i] << " ";
     }
@@ -150,7 +150,7 @@ void printArray(const int* arr, size_t n) {
 }
 
 int safeInput(const string& message) {
-    int value;
+    int value = 0;
     cout << message;
     cin >> value;
     if(cin.fail()) {
