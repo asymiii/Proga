@@ -102,6 +102,9 @@ int main() {
         for(size_t i = 0; i < n; i++) {
             arr[i] = safeInput("Элемент " + to_string(i) + ": ");
         }
+        default:
+        cout<<"Неверное значение"<<endl;
+        return 1;
     }
     copy(arr, arr + n, work_arr);
     
