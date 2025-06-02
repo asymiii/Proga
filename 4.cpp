@@ -9,14 +9,14 @@ using namespace std;
  * @param n - количество членов
  * @return сумма членов
  */
-double sumFirstN(int n);
+double sumFirstN( const int n);
 
 /**
  * @brief Вычисляет сумму членов с модулем >= e
  * @param e - минимальное значение модуля
  * @return сумма подходящих членов
  */
-double sumGreaterE(double e);
+double sumGreaterE(const double e);
 
 /**
  * @brief Проверяет корректность ввода целого числа
@@ -62,10 +62,10 @@ double sumGreaterE(double e) {
     int k = 0;
     
     while (abs(term) >= e) {
-        sum += term;
-        k++;
         // Рекуррентное соотношение
+        sum += term;
         term = -term / (k+1);
+        k++;
         
     }
     
