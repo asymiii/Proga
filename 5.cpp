@@ -6,10 +6,20 @@
 
 using namespace std;
 
+/**
+ * @enum FM
+ * @brief Режимы заполнения массива.
+ * 
+ * Используется для выбора способа заполнения массива:
+ * - RANDOM — заполнение случайными числами,
+ * - MANUAL — заполнение вручную пользователем.
+ */
+
 enum class FM {
     RANDOM=1,
     MANUAL=2
 };
+
 /**
  * @brief - Заполняет массив случайными числами в заданном диапазоне
  * @param arr - массив для заполнения
@@ -57,6 +67,11 @@ void printArray(const int* arr, const size_t n);
  */
 int safeInput(const string& message);
 
+/**
+ * @brief точка входа в программу
+ * @return 0, если прогамма выполнена корректно, иначе 1 
+ */
+
 int main() {
     srand(time(0));
     
@@ -78,7 +93,7 @@ int main() {
     cout << "Заполнить массив:1. Случайными числами 2. Вручную Выберите вариант: ";
     int choice = safeInput("");
     
- switch(static_cast<FM>(choice)) {
+ switch(FM(choice)) {
         case FM::RANDOM:
             fillRandom(arr, n, min_val, max_val);
             break;
