@@ -16,8 +16,8 @@ using namespace std;
  */
 
 enum class FM {
-    RANDOM=1,
-    MANUAL=2
+    RANDOM,
+    MANUAL
 };
 
 /**
@@ -90,22 +90,34 @@ int main() {
     int* work_arr = new int[n];
     
     // Заполнение массива
-    cout << "Заполнить массив:1. Случайными числами 2. Вручную Выберите вариант: ";
-    int choice = safeInput("");
+   FM choice;
+    string input;
+ {
+        cout << "Заполнить массив: RANDOM - случайными числами, MANUAL - вручную. Выберите вариант: ";
+        cin >> input;
+        if(input == "RANDOM") {
+            choice = FM::RANDOM;
+        }  if(input == "MANUAL") {
+            choice = FM::MANUAL;
+        } 
+    }
     
- switch(FM(choice)) {
+    switch(choice) {
         case FM::RANDOM:
             fillRandom(arr, n, min_val, max_val);
             break;
         case FM::MANUAL:
             cout << "Введите " << n << " элементов массива:";
-        for(size_t i = 0; i < n; i++) {
-            arr[i] = safeInput("Элемент " + to_string(i) + ": ");
-        }
+            for(size_t i = 0; i < n; i++) {
+                arr[i] = safeInput("Элемент " + to_string(i) + ": ");
+            }
+            
+        break;
         default:
-        cout<<"Неверное значение"<<endl;
+        cout << "Ошибка: Допустимы только RANDOM или MANUAL";
         return 1;
     }
+        
     copy(arr, arr + n, work_arr);
     
     cout << "Исходный массив: ";
