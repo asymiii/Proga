@@ -102,7 +102,7 @@ switch(FM(choice)) {
         for(size_t i = 0; i < n; i++) {
             arr[i] = safeInput("Элемент " + to_string(i) + ": ");
         }
-        break; // Не забудь break!
+        break;
     default:
         cout << "Неверное значение" << endl;
         return 1;
