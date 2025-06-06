@@ -1,0 +1,228 @@
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+#include <limits>
+#include <vector>
+
+using namespace std;
+
+/**
+ * @enum FM
+ * @brief Режимы заполнения массива.
+ * 
+ * Используется для выбора способа заполнения массива:
+ * - RANDOM — заполнение случайными числами,
+ * - MANUAL — заполнение вручную пользователем.
+ */
+enum class FM {
+    RANDOM,
+    MANUAL
+};
+
+/**
+ * @brief Заполняет двумерный массив случайными числами в заданном диапазоне.
+ * @param arr - массив для заполнения
+ * @param rows - количество строк
+ * @param cols - количество столбцов
+ * @param min - минимальное значение
+ * @param max - максимальное значение
+ */
+void fillRandom(int** arr, const size_t rows, const size_t cols, const int min, const int max);
+
+/**
+ * @brief Выводит двумерный массив на экран.
+ * @param arr - массив для вывода
+ * @param rows - количество строк
+ * @param cols - количество столбцов
+ */
+void printArray(int** arr, const size_t rows, const size_t cols);
+
+/**
+ * @brief Безопасный ввод числа с проверкой.
+ * @param message - сообщение для пользователя
+ * @return - возвращает введенное число
+ */
+int safeInput(const string& message);
+
+/**
+ * @brief Заменяет элементы первых трех столбцов на их квадраты.
+ * @param arr - массив для обработки
+ * @param rows - количество строк
+ * @param cols - количество столбцов
+ */
+ void divideEvenNumbered(int** arr, const size_t rows, const size_t cols);
+
+/**
+ * @brief Вставляет первую строку после каждой нечетной строки.
+ * @param arr - массив для обработки
+ * @param rows - количество строк (изменяется при вставке)
+ * @param cols - количество столбцов
+ */
+void insertFirstRowAfterOddRows(int**& arr, size_t& rows, const size_t cols);
+/**
+ * @brief Создает копию двумерного массива.
+ * @param original - исходный массив для копирования
+ * @param rows - количество строк в массиве
+ * @param cols - количество столбцов в массиве
+ * @return Возвращает указатель на новый массив - точную копию исходного
+ */
+
+int** copyArray(int** original, const size_t rows, const size_t cols);
+
+/**
+ * @brief точка входа в программу
+ * @return 0, если прогамма выполнена корректно, иначе 1 
+ */
+int main() {
+       srand(time(0));
+    
+    int min_val = safeInput("Введите минимальное значение диапазона: ");
+    int max_val = safeInput("Введите максимальное значение диапазона: ");
+    
+    if(min_val > max_val) {
+        cout << "Минимальное значение больше максимального. Значения будут поменяны местами." << endl;
+        swap(min_val, max_val);
+    }
+    
+    size_t rows = safeInput("Введите количество строк (N): ");
+    size_t cols = safeInput("Введите количество столбцов (M): ");
+
+    // Создаем основной массив
+    int** arr = new int*[rows];
+    for(size_t i = 0; i < rows; i++) {
+        arr[i] = new int[cols];
+    }
+
+    // Создаем рабочий массив (копию)
+    int** work_arr = nullptr;
+
+    FM choice;
+    string input;
+ {
+        cout << "Заполнить массив: RANDOM - случайными числами, MANUAL - вручную. Выберите вариант: ";
+        cin >> input;
+        if(input == "RANDOM") {
+            choice = FM::RANDOM;
+        }  if(input == "MANUAL") {
+            choice = FM::MANUAL;
+        } 
+    }
+    
+    switch(choice) {
+        case FM::RANDOM:
+            fillRandom(arr, rows, cols, min_val, max_val);
+            break;
+        case FM::MANUAL:
+            cout << "Введите элементы массива:" << endl;
+            for(size_t i = 0; i < rows; i++) {
+                for(size_t j = 0; j < cols; j++) {
+                    arr[i][j] = safeInput("Элемент [" + to_string(i) + "][" + to_string(j) + "]: ");
+                }
+            }
+            break;
+            default:
+        cout << "Ошибка: Допустимы только RANDOM или MANUAL";
+        return 1;
+    }
+    
+    // Создаем копию для работы
+    work_arr = copyArray(arr, rows, cols);
+    
+    cout << "Исходный массив: " << endl;
+    printArray(arr, rows, cols);
+    
+    // 1. Заменяем элементы первых трех столбцов на их квадраты (работаем с копией)
+    divideEvenNumbered(work_arr, rows, cols);
+    cout << "1. Массив после замены первых трех столбцов на их квадраты: " << endl;
+    printArray(work_arr, rows, cols);
+    
+    // 2. Вставляем первую строку после каждой нечетной строки (работаем с копией)
+    insertFirstRowAfterOddRows(work_arr, rows, cols);
+    cout << "2. Массив после вставки первой строки после каждой нечетной строки: " << endl;
+    printArray(work_arr, rows, cols);
+     
+    return 0;
+}
+
+int** copyArray(int** original, const size_t rows, const size_t cols) {
+    int** copy = new int*[rows];
+    for(size_t i = 0; i < rows; i++) {
+        copy[i] = new int[cols];
+        for(size_t j = 0; j < cols; j++) {
+            copy[i][j] = original[i][j];
+        }
+    }
+    return copy;
+}
+
+void fillRandom(int** arr, const size_t rows, const size_t cols, const int min, const int max) {
+    for(size_t i = 0; i < rows; i++) {
+        for(size_t j = 0; j < cols; j++) {
+            arr[i][j] = rand() % (max - min + 1) + min;
+        }
+    }
+}
+
+void printArray(int** arr, const size_t rows, const size_t cols) {
+    for(size_t i = 0; i < rows; i++) {
+        for(size_t j = 0; j < cols; j++) {
+            cout << arr[i][j] << " ";
+        }
+        cout << endl;
+    }
+}
+
+int safeInput(const string& message) {
+    int value = 0;
+    while(true) {
+        cout << message;
+        cin >> value;
+        if(cin.fail()) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Ошибка ввода, введите целое число." << endl;
+        } 
+        abort();
+    }
+    return value;
+}
+
+void divideEvenNumbered(int** arr, const size_t rows, const size_t cols) {
+    for(size_t i = 0; i < rows; i++) {
+        for(size_t j = 0; j < min(cols, static_cast<size_t>(3)); j++) {
+            arr[i][j] = arr[i][j] * arr[i][j];
+        }
+    }
+}
+
+void insertFirstRowAfterOddRows(int**& arr, size_t& rows, const size_t cols) {
+    // Создаем копию первой строки
+    int* firstRow = new int[cols];
+    for(size_t j = 0; j < cols; j++) {
+        firstRow[j] = arr[0][j];
+    }
+
+    // Вычисляем новый размер массива
+    size_t newRows = rows + (rows / 2);
+    int** newArr = new int*[newRows];
+
+    size_t newIndex = 0;
+    for(size_t i = 0; i < rows; i++) {
+        // Копируем текущую строку
+        newArr[newIndex] = new int[cols];
+        for(size_t j = 0; j < cols; j++) {
+            newArr[newIndex][j] = arr[i][j];
+        }
+        newIndex++;
+
+        // Вставляем первую строку после нечетных строк (индексы 0, 2, 4...)
+        if(i % 2 == 0 && newIndex < newRows) {
+            newArr[newIndex] = new int[cols];
+            for(size_t j = 0; j < cols; j++) {
+                newArr[newIndex][j] = firstRow[j];
+            }
+            newIndex++;
+        }
+    }
+
+}
