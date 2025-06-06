@@ -104,6 +104,7 @@ int main() {
         default:
             cout << "Неверное значение" << endl;
             return 1;
+            delete [] arr;
     }
     
     cout << "Исходный массив:";
