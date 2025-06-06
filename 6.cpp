@@ -1,0 +1,203 @@
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+#include <limits>
+#include <algorithm> 
+
+using namespace std;
+
+/**
+ * @enum FM
+ * @brief Режимы заполнения массива.
+ * 
+ * Используется для выбора способа заполнения массива:
+ * - RANDOM — заполнение случайными числами,
+ * - MANUAL — заполнение вручную пользователем.
+ */
+enum FM {
+    RANDOM = 1,
+    MANUAL = 2
+};
+
+/**
+ * @brief Заполняет двумерный массив случайными числами в заданном диапазоне
+ * @param arr - массив для заполнения
+ * @param rows - количество строк
+ * @param cols - количество столбцов
+ * @param min - минимальное значение
+ * @param max - максимальное значение
+ */
+void fillRandom(int** arr, const size_t rows, const size_t cols, const int min, const int max);
+
+/**
+ * @brief Вычисляет сумму элементов первых трех столбцов, заменяя их на квадраты
+ * @param arr - массив чисел
+ * @param rows - количество строк
+ * @param cols - количество столбцов
+ */
+void processFirstThreeColumns(int** arr, const size_t rows, const size_t cols);
+
+/**
+ * @brief Вставляет первую строку после каждой нечетной строки
+ * @param arr - массив чисел
+ * @param rows - количество строк (будет изменено)
+ * @param cols - количество столбцов
+ */
+void insertFirstRowAfterOddRows(int**& arr, size_t& rows, const size_t cols);
+
+/**
+ * @brief Выводит двумерный массив на экран
+ * @param arr - массив чисел
+ * @param rows - количество строк
+ * @param cols - количество столбцов
+ */
+void printArray(int** arr, const size_t rows, const size_t cols);
+
+/**
+ * @brief Безопасный ввод числа с проверкой
+ * @param message - сообщение для пользователя
+ * @return - возвращает введенное число
+ */
+int safeInput(const string& message);
+
+/**
+ * @brief точка входа в программу
+ * @return 0, если программа выполнена корректно, иначе 1 
+ */
+int main() {
+    srand(time(0));
+    
+    // Ввод диапазона
+    int min_val = safeInput("Введите минимальное значение диапазона: ");
+    int max_val = safeInput("Введите максимальное значение диапазона: ");
+    
+    if(min_val > max_val) {
+        cout << "Минимальное значение больше максимального. Значения будут поменяны местами.";
+        swap(min_val, max_val);
+    }
+    
+    size_t rows = safeInput("Введите количество строк: ");
+    size_t cols = safeInput("Введите количество столбцов: ");
+    
+    // Создание массива
+    int** arr = new int*[rows];
+    for(size_t i = 0; i < rows; i++) {
+        arr[i] = new int[cols];
+    }
+    
+    // Заполнение массива
+    cout << "Заполнить массив: " << FM::RANDOM << " - Случайными числами, " << FM::MANUAL << " - Вручную. Выберите вариант: ";
+    int choice = safeInput("");
+    
+    switch(FM(choice)) {
+        case FM::RANDOM:
+            fillRandom(arr, rows, cols, min_val, max_val);
+            break;
+        case FM::MANUAL:
+            cout << "Введите " << rows << "x" << cols << " элементов массива:";
+            for(size_t i = 0; i < rows; i++) {
+                for(size_t j = 0; j < cols; j++) {
+                    arr[i][j] = safeInput("Элемент [" + to_string(i) + "][" + to_string(j) + "]: ");
+                }
+            }
+            break;
+        default:
+            cout << "Неверное значение" << endl;
+            return 1;
+            delete [] arr;
+    }
+    
+    cout << "Исходный массив:";
+    printArray(arr, rows, cols);
+    
+    // 1. Замена элементов первых трех столбцов на их квадраты
+    processFirstThreeColumns(arr, rows, cols);
+    cout << "1. Массив после замены первых трех столбцов на их квадраты:";
+    printArray(arr, rows, cols);
+    
+    // 2. Вставка первой строки после каждой нечетной строки
+    insertFirstRowAfterOddRows(arr, rows, cols);
+    cout << "2. Массив после вставки первой строки после каждой нечетной строки:";
+    printArray(arr, rows, cols);
+    
+}
+
+void fillRandom(int** arr, const size_t rows, const size_t cols, const int min, const int max) {
+    for(size_t i = 0; i < rows; i++) {
+for(size_t j = 0; j < cols; j++) {
+            arr[i][j] = rand() % (max - min + 1) + min;
+        }
+    }
+}
+
+void processFirstThreeColumns(int** arr, const size_t rows, const size_t cols) {
+    size_t columnsToProcess = min(cols, static_cast<size_t>(3));
+    for(size_t i = 0; i < rows; i++) {
+        for(size_t j = 0; j < columnsToProcess; j++) {
+            arr[i][j] = arr[i][j] * arr[i][j];
+        }
+    }
+}
+
+void insertFirstRowAfterOddRows(int**& arr, size_t& rows, const size_t cols) {
+    // Создаем новую первую строку для копирования
+    int* firstRow = new int[cols];
+    for(size_t j = 0; j < cols; j++) {
+        firstRow[j] = arr[0][j];
+    }
+    
+    // Вычисляем новое количество строк
+    size_t newRows = rows + (rows / 2);
+    int** newArr = new int*[newRows];
+    
+    // Копируем строки с вставками
+    size_t newIndex = 0;
+    for(size_t i = 0; i < rows; i++) {
+        // Копируем текущую строку
+        newArr[newIndex] = new int[cols];
+        for(size_t j = 0; j < cols; j++) {
+            newArr[newIndex][j] = arr[i][j];
+        }
+        newIndex++;
+        
+        // Если строка нечетная, вставляем копию первой строки
+        if(i % 2 == 0) {
+            newArr[newIndex] = new int[cols];
+            for(size_t j = 0; j < cols; j++) {
+                newArr[newIndex][j] = firstRow[j];
+            }
+            newIndex++;
+        }
+    }
+    
+    // Освобождаем старую память
+    for(size_t i = 0; i < rows; i++) {
+        delete[] arr[i];
+    }
+    delete[] arr;
+    
+    // Обновляем указатель и количество строк
+    arr = newArr;
+    rows = newRows;
+    delete[] firstRow;
+}
+
+void printArray(int** arr, const size_t rows, const size_t cols) {
+    for(size_t i = 0; i < rows; i++) {
+        for(size_t j = 0; j < cols; j++) {
+            cout << arr[i][j] << "\t";
+        }
+        cout << endl;
+    }
+}
+
+int safeInput(const string& message) {
+    int value = 0;
+    cout << message;
+    cin >> value;
+    if(cin.fail()) {
+    cout << "Ошибка ввода. Пожалуйста, введите целое число.";
+    abort();
+        } 
+    return value;
+    }
