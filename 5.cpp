@@ -106,6 +106,7 @@ switch(FM(choice)) {
     default:
         cout << "Неверное значение" << endl;
         return 1;
+        delete [] arr;
 }
     copy(arr, arr + n, work_arr);
     
@@ -128,6 +129,8 @@ switch(FM(choice)) {
         abort();
     }
     return 0;
+    delete [] arr;
+    delete [] work_arr;
 }
 
 void fillRandom(int* arr, const size_t n, const int min, const int max) {
