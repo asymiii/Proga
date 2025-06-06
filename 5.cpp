@@ -15,9 +15,9 @@ using namespace std;
  * - MANUAL — заполнение вручную пользователем.
  */
 
-enum class FM {
-    RANDOM,
-    MANUAL
+enum FM {
+    RANDOM=1,
+    MANUAL=2
 };
 
 /**
@@ -89,35 +89,24 @@ int main() {
     int* arr = new int[n];
     int* work_arr = new int[n];
     
-    // Заполнение массива
-   FM choice;
-    string input;
- {
-        cout << "Заполнить массив: RANDOM - случайными числами, MANUAL - вручную. Выберите вариант: ";
-        cin >> input;
-        if(input == "RANDOM") {
-            choice = FM::RANDOM;
-        }  if(input == "MANUAL") {
-            choice = FM::MANUAL;
-        } 
-    }
-    
-    switch(choice) {
-        case FM::RANDOM:
-            fillRandom(arr, n, min_val, max_val);
-            break;
-        case FM::MANUAL:
-            cout << "Введите " << n << " элементов массива:";
-            for(size_t i = 0; i < n; i++) {
-                arr[i] = safeInput("Элемент " + to_string(i) + ": ");
-            }
-            
+   // Заполнение массива
+cout << "Заполнить массив: " << (FM::RANDOM) << " - Случайными числами " << (FM::MANUAL) << " - Вручную" << " Выберите вариант: "<<endl;
+int choice = safeInput("");
+
+switch(FM(choice)) {
+    case FM::RANDOM:
+        fillRandom(arr, n, min_val, max_val);
         break;
-        default:
-        cout << "Ошибка: Допустимы только RANDOM или MANUAL";
+    case FM::MANUAL:
+        cout << "Введите " << n << " элементов массива:\n";
+        for(size_t i = 0; i < n; i++) {
+            arr[i] = safeInput("Элемент " + to_string(i) + ": ");
+        }
+        break; // Не забудь break!
+    default:
+        cout << "Неверное значение" << endl;
         return 1;
-    }
-        
+}
     copy(arr, arr + n, work_arr);
     
     cout << "Исходный массив: ";
@@ -167,7 +156,7 @@ int countElements(const int* arr, const size_t n, const int A) {
 
 void divideEvenNumbered(int* arr, const size_t n) {
     int first = arr[0];
-    for(size_t i = 1; i < n; i += 2) {
+for(size_t i = 1; i < n; i += 2) {
         arr[i] /= first;
     }
 }
