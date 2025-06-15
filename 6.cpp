@@ -212,7 +212,7 @@ int** insertFirstRowAfterOddRows(int** arr, size_t rows, const size_t cols, size
 void printArray(int** arr, const size_t rows, const size_t cols) {
     for(size_t i = 0; i < rows; i++) {
         for(size_t j = 0; j < cols; j++) {
-            cout << arr[i][j];
+            cout << arr[i][j] << " ";
         }
         cout << endl;
     }
