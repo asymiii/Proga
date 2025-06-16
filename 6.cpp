@@ -42,7 +42,7 @@ void processFirstThreeColumns(int** arr, const size_t rows, const size_t cols);
  * @param cols - количество столбцов
  * @param newRows - новое количество строк (выходной параметр)
  */
-int** insertFirstRowAfterOddRows(int** arr, size_t rows, const size_t cols, size_t& newRows);
+int** insertFirstRowAfterOddRows(int** arr, size_t rows, const size_t cols, size_t newRows);
 
 /**
  * @brief Выводит двумерный массив на экран
@@ -137,16 +137,16 @@ size_t workRows = rows;
     
     // 2. Вставка первой строки после каждой нечетной строки
     size_t newRows;
+    newRows = rows + (rows + 1) / 2;
     int** newArr = insertFirstRowAfterOddRows(workArr, workRows, cols, newRows);
-    workArr = newArr;
-    workRows = newRows;
+
     
     cout << "2. Массив после вставки первой строки после каждой нечетной строки:" << endl;
-    printArray(workArr, workRows, cols);
-    
-    return 0;
+    printArray(newArr , newRows, cols);
     delete [] newArr;
-    delete [] workArr;
+    delete [] workArr; 
+    delete [] arr;
+    return 0;
 }
 
 size_t safeInputPositive(const string& message) {
@@ -179,7 +179,7 @@ void processFirstThreeColumns(int** arr, const size_t rows, const size_t cols) {
     }
 }
 
-int** insertFirstRowAfterOddRows(int** arr, size_t rows, const size_t cols, size_t& newRows) {
+int** insertFirstRowAfterOddRows(int** arr, size_t rows, const size_t cols, size_t newRows){
     newRows = rows + (rows + 1) / 2;
     int** newArr = new int*[newRows];
     
