@@ -40,8 +40,9 @@ void processFirstThreeColumns(int** arr, const size_t rows, const size_t cols);
  * @param arr - массив чисел
  * @param rows - количество строк (будет изменено)
  * @param cols - количество столбцов
+ * @param newRows - новое количество строк (выходной параметр)
  */
-int** insertFirstRowAfterOddRows(int** arr, size_t rows, const size_t cols, size_t* newRows);
+int** insertFirstRowAfterOddRows(int** arr, size_t rows, const size_t cols, size_t& newRows);
 
 /**
  * @brief Выводит двумерный массив на экран
@@ -127,7 +128,7 @@ int main() {
     
     // Создаем копию массива для работы
     int** workArr = copyArray(arr, rows, cols);
-    size_t workRows = rows;
+size_t workRows = rows;
     
     // 1. Замена элементов первых трех столбцов на их квадраты
     processFirstThreeColumns(workArr, workRows, cols);
@@ -136,7 +137,7 @@ int main() {
     
     // 2. Вставка первой строки после каждой нечетной строки
     size_t newRows;
-    int** newArr = insertFirstRowAfterOddRows(workArr, workRows, cols, &newRows);
+    int** newArr = insertFirstRowAfterOddRows(workArr, workRows, cols, newRows);
     workArr = newArr;
     workRows = newRows;
     
@@ -148,7 +149,6 @@ int main() {
     delete [] workArr;
 }
 
-// Остальные функции остаются без изменений
 size_t safeInputPositive(const string& message) {
     int value = 0;
     cout << message;
@@ -179,9 +179,9 @@ void processFirstThreeColumns(int** arr, const size_t rows, const size_t cols) {
     }
 }
 
-int** insertFirstRowAfterOddRows(int** arr, size_t rows, const size_t cols, size_t* newRows) {
-    *newRows = rows + (rows + 1) / 2;
-    int** newArr = new int*[*newRows];
+int** insertFirstRowAfterOddRows(int** arr, size_t rows, const size_t cols, size_t& newRows) {
+    newRows = rows + (rows + 1) / 2;
+    int** newArr = new int*[newRows];
     
     int* firstRow = new int[cols];
     for(size_t j = 0; j < cols; j++) {
