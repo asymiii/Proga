@@ -42,7 +42,7 @@ void processFirstThreeColumns(int** arr, const size_t rows, const size_t cols);
  * @param cols - количество столбцов
  * @param newRows - новое количество строк (выходной параметр)
  */
-int** insertFirstRowAfterOddRows(int** arr, size_t rows, const size_t cols, size_t newRows);
+int** insertFirstRowAfterOddRows(int** arr, const size_t rows, const size_t cols, const size_t newRows);
 
 /**
  * @brief Выводит двумерный массив на экран
@@ -66,7 +66,7 @@ int safeInput(const string& message);
  * @param cols - количество столбцов в массиве
  * @return Возвращает указатель на новый массив, являющийся копией исходного
  */
-int** copyArray(int** src, size_t rows, size_t cols);
+int** copyArray(int** src, const size_t rows, const size_t cols);
 
 /**
  * @brief Безопасный ввод положительного числа с проверкой
@@ -136,8 +136,7 @@ size_t workRows = rows;
     printArray(workArr, workRows, cols);
     
     // 2. Вставка первой строки после каждой нечетной строки
-    size_t newRows;
-    newRows = rows + (rows + 1) / 2;
+    size_t newRows = rows + (rows + 1) / 2;
     int** newArr = insertFirstRowAfterOddRows(workArr, workRows, cols, newRows);
 
     
@@ -179,7 +178,7 @@ void processFirstThreeColumns(int** arr, const size_t rows, const size_t cols) {
     }
 }
 
-int** insertFirstRowAfterOddRows(int** arr, size_t rows, const size_t cols, size_t newRows){
+int** insertFirstRowAfterOddRows(int** arr, const size_t rows, const size_t cols, const size_t newRows){
     int** newArr = new int*[newRows];
     
     int* firstRow = new int[cols];
@@ -229,7 +228,7 @@ int safeInput(const string& message) {
 }
 
 
-int** copyArray(int** src, size_t rows, size_t cols) {
+int** copyArray(int** src, const size_t rows, const size_t cols) {
     int** dest = new int*[rows];
     for(size_t i = 0; i < rows; i++) {
         dest[i] = new int[cols];
