@@ -180,7 +180,6 @@ void processFirstThreeColumns(int** arr, const size_t rows, const size_t cols) {
 }
 
 int** insertFirstRowAfterOddRows(int** arr, size_t rows, const size_t cols, size_t newRows){
-    newRows = rows + (rows + 1) / 2;
     int** newArr = new int*[newRows];
     
     int* firstRow = new int[cols];
